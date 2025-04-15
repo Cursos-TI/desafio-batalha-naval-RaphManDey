@@ -6,15 +6,15 @@ int main() {
     char linha[10] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
     int tabuleiro[10][10];
 
-    // Inicialização o tabuleiro
+    // Inicialização do tabuleiro
     for (int i = 0; i < 10; i++)
         for (int j = 0; j < 10; j++)
             tabuleiro[i][j] = 0;
 
-    int navioH[3] = {3, 3, 3};
-    int navioV[3] = {3, 3, 3};
+            //Navios
+    int navio[3] = {3, 3, 3};
 
-    //linha horizontal(linhaH) e linha vertical(linhaV)
+    //linha horizontal(linhaH) e linha vertical(linhaV) e Posicionamento Horizontal e Vertical
     int linhaH = 2, colunaH = 4;
     int linhaV = 5, colunaV = 1;
 
@@ -34,32 +34,62 @@ int main() {
 
     if (ColocarHorizontal)
         for (int i = 0; i < 3; i++)
-            tabuleiro[linhaH][colunaH + i] = navioH[i];
+            tabuleiro[linhaH][colunaH + i] = navio[i];
     else
         printf("Navio horizontal inválido.\n");
+    
+        if (linhaV + 3 <= 10) {
+            for (int i = 0; i < 3; i++)
+                if (tabuleiro[linhaV + i][colunaV] != 0)
+                    ColocarVertical = 0;
+        } else ColocarVertical = 0;
+    
+        if (ColocarVertical)
+            for (int i = 0; i < 3; i++)
+                tabuleiro[linhaV + i][colunaV] = navio[i];
+        else
+            printf("Navio vertical inválido.\n");
 
-    if (ColocarVertical)
-        for (int i = 0; i < 3; i++)
-            tabuleiro[linhaV + i][colunaV] = navioV[i];
-    else
-        printf("Navio vertical inválido.\n");
 
-    // Exibir letras no topo
-    printf("\n   A B C D E F G H I J\n");
+// Primeiro Navio Diagonal
+int linhaPrimeiro = 0, colunaPrimeiro = 0;
+if (linhaPrimeiro + 2 < 10 && colunaPrimeiro + 2 < 10 &&
+    tabuleiro[linhaPrimeiro][colunaPrimeiro] == 0 &&
+    tabuleiro[linhaPrimeiro + 1][colunaPrimeiro + 1] == 0 &&
+    tabuleiro[linhaPrimeiro + 2][colunaPrimeiro + 2] == 0) {
 
-    // Exibir tabuleiro com números na lateral
+    for (int i = 0; i < 3; i++)
+        tabuleiro[linhaPrimeiro + i][colunaPrimeiro + i] = navio[i];
+} else {
+    printf("Navio diagonal principal inválido.\n");
+}
+
+// Secundo Navio Diagonal
+int linhaSecundaria = 0, colunaSecundaria = 9;
+if (linhaSecundaria + 2 < 10 && colunaSecundaria - 2 >= 0 &&
+    tabuleiro[linhaSecundaria][colunaSecundaria] == 0 &&
+    tabuleiro[linhaSecundaria + 1][colunaSecundaria - 1] == 0 &&
+    tabuleiro[linhaSecundaria + 2][colunaSecundaria - 2] == 0) {
+
+    for (int i = 0; i < 3; i++)
+        tabuleiro[linhaSecundaria + i][colunaSecundaria - i] = navio[i];
+} else {
+    printf("Navio diagonal secundária inválido.\n");
+}
+
+    // Exibição do tabuleiro
+    printf("\n");
+    for (int i = 0; i < 10; i++)
+        printf("%c ", linha[i]);
+    printf("\n");
+
     for (int i = 0; i < 10; i++) {
-        printf("%d  ", i); // número da linha
+        printf("%2d  ", i + 1);
         for (int j = 0; j < 10; j++) {
             printf("%d ", tabuleiro[i][j]);
         }
         printf("\n");
     }
-
-    // Nível Aventureiro - Expansão do Tabuleiro e Posicionamento Diagonal
-    // Sugestão: Expanda o tabuleiro para uma matriz 10x10.
-    // Sugestão: Posicione quatro navios no tabuleiro, incluindo dois na diagonal.
-    // Sugestão: Exiba o tabuleiro completo no console, mostrando 0 para posições vazias e 3 para posições ocupadas.
 
     // Nível Mestre - Habilidades Especiais com Matrizes
     // Sugestão: Crie matrizes para representar habilidades especiais como cone, cruz, e octaedro.
